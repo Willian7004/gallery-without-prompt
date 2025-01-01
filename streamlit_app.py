@@ -33,11 +33,11 @@ def select_random_images(image_list, num_images=20):
 def display_images(image_list, columns=1):
     if columns == 1:
         for img_path in image_list:
-            st.image(img_path, use_column_width=True)
+            st.image(img_path)
     else:
         cols = st.columns(columns)
         for i, img_path in enumerate(image_list):
-            cols[i % columns].image(img_path, use_column_width=True)
+            cols[i % columns].image(img_path)
 
 # 根据选择的比例显示图片
 if aspect_ratio == "16:9":
