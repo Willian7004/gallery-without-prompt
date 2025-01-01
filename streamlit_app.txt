@@ -1,0 +1,78 @@
+使用streamlit写一个程序，实现以下功能：
+1.创建下拉菜单，有16：9和9：16两个选项，默认选择16：9。在同一行创建按钮，按钮上为刷新图标。
+2.下拉菜单选中16：9时，在当前目录下名称为16：9的文件夹中随机选择20张图片并显示。
+3.下拉菜单选中9：16时，在当前目录下名称为9：16的文件夹中随机选择20张图片，分两列显示。
+4.按下按钮时，重新随机选择20张图片并显示。
+
+要实现这个功能，你可以使用 `Streamlit` 来创建一个简单的应用程序。以下是一个示例代码，展示了如何实现你描述的功能：
+
+```python
+import streamlit as st
+import os
+import random
+from PIL import Image
+
+# 设置页面布局
+st.set_page_config(layout="wide")
+
+# 创建下拉菜单和刷新按钮
+col1, col2 = st.columns([1, 10])
+with col1:
+    refresh_button = st.button("🔄")
+with col2:
+    aspect_ratio = st.selectbox("选择图片比例", ["16:9", "9:16"], index=0)
+
+# 定义图片路径
+image_dir_16_9 = "16:9"
+image_dir_9_16 = "9:16"
+
+# 获取图片列表
+def get_image_list(folder):
+    if os.path.exists(folder):
+        return [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith(('.png', '.jpg', '.jpeg'))]
+    return []
+
+# 随机选择20张图片
+def select_random_images(image_list, num_images=20):
+    if len(image_list) >= num_images:
+        return random.sample(image_list, num_images)
+    return image_list
+
+# 显示图片
+def display_images(image_list, columns=1):
+    if columns == 1:
+        for img_path in image_list:
+            st.image(img_path, use_column_width=True)
+    else:
+        cols = st.columns(columns)
+        for i, img_path in enumerate(image_list):
+            cols[i % columns].image(img_path, use_column_width=True)
+
+# 根据选择的比例显示图片
+if aspect_ratio == "16:9":
+    image_list = get_image_list(image_dir_16_9)
+    if refresh_button or not st.session_state.get('16:9_images'):
+        st.session_state['16:9_images'] = select_random_images(image_list)
+    display_images(st.session_state['16:9_images'])
+else:
+    image_list = get_image_list(image_dir_9_16)
+    if refresh_button or not st.session_state.get('9:16_images'):
+        st.session_state['9:16_images'] = select_random_images(image_list)
+    display_images(st.session_state['9:16_images'], columns=2)
+```
+
+### 代码说明：
+1. **下拉菜单和刷新按钮**：使用 `st.selectbox` 创建下拉菜单，`st.button` 创建刷新按钮。
+2. **图片路径**：定义了 `16:9` 和 `9:16` 两个文件夹的路径。
+3. **获取图片列表**：`get_image_list` 函数获取指定文件夹中的图片列表。
+4. **随机选择图片**：`select_random_images` 函数从图片列表中随机选择20张图片。
+5. **显示图片**：`display_images` 函数根据指定的列数显示图片。
+6. **根据选择的比例显示图片**：根据用户选择的比例，从相应的文件夹中随机选择图片并显示。如果按下刷新按钮，则重新随机选择图片。
+
+### 运行程序：
+1. 确保在当前目录下存在 `16:9` 和 `9:16` 两个文件夹，并且文件夹中包含图片文件。
+2. 运行 `streamlit run your_script.py` 启动应用程序。
+
+### 注意事项：
+- 如果文件夹中的图片少于20张，程序会显示所有可用的图片。
+- 你可以根据需要调整图片的显示方式或布局。
