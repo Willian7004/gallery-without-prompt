@@ -5,6 +5,7 @@ from PIL import Image
 
 with st.expander("Gallery Without Prompt（展开项目说明）"):
     st.write("本项目展示的图片生成流程为：使用Flux.1 dev生成720p图片再使用Flux.1 schnell图生图生成1440p图片，在生成时不填写提示词。这样生成效果优于直接使用Flux.1 schnell，分辨率优于直接使用Flux.1 dev。图片有16：9和9：16两种宽高比，选择宽高比后随机显示图片。")
+    st.write("本项目每个版本生成16：9和9：16的图片各200张，筛选后上传。每次更新会替换图片，在release中查看历史版本。")
    
 # 创建文件夹路径
 folder_16_9 = "16：9"
