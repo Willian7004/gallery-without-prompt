@@ -30,7 +30,7 @@ def display_images(images, show_download_button, columns=1):
     if columns == 1:
         for img_path in images:
             img = Image.open(img_path)
-            st.image(img, use_column_width=True)
+            st.image(img)
             if show_download_button:
                 with open(img_path, "rb") as file:
                     btn = st.download_button(
@@ -43,7 +43,7 @@ def display_images(images, show_download_button, columns=1):
         cols = st.columns(columns)
         for i, img_path in enumerate(images):
             img = Image.open(img_path)
-            cols[i % columns].image(img, use_column_width=True)
+            cols[i % columns].image(img)
             if show_download_button:
                 with open(img_path, "rb") as file:
                     btn = cols[i % columns].download_button(
