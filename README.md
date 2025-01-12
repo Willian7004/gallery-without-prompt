@@ -6,6 +6,8 @@ gallery-without-prompt
 
 本项目逻辑部分使用LLM辅助生成，对话记录位于streamlit_app.md。第二版的逻辑功能也进行了调整，加大了页面宽度，改为双列显示16：9图片，分四列显示9：16图片。
 
+更新：本人目前已弃用Flux.1，图片生成也改用Hunyuan Video。考虑分辨率因素，本仓库将停止更新，使用Hunyuan Video的gallery项目将在新的仓库部署。
+
 本项目已部署到Streamlit Cloud，域名为https://william7004-gallery-without-prompt.streamlit.app
 
 本地部署流程
